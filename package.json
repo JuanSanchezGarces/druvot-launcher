@@ -13,7 +13,8 @@
   },
   "devDependencies": {
     "electron": "^35.0.0",
-    "electron-builder": "^25.0.0"
+    "electron-builder": "^25.0.0",
+    "png-to-ico": "^3.0.1"
   },
   "build": {
     "appId": "com.druvot.launcher",
@@ -22,11 +23,13 @@
       "output": "dist"
     },
     "win": {
-      "target": "nsis"
+      "target": "nsis",
+      "icon": "assets/icon.ico"
     },
     "nsis": {
       "oneClick": false,
-      "allowToChangeInstallationDirectory": true
+      "allowToChangeInstallationDirectory": true,
+      "artifactName": "druvot_launcher.exe"
     }
   }
 }
