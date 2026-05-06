@@ -17,8 +17,7 @@ const fs = require('fs')
 const crypto = require('crypto')
 const path = require('path')
 
-const GITHUB_OWNER = 'YOUR_GITHUB_USER'
-const GITHUB_REPO = 'druvot-launcher'
+const { GITHUB_OWNER, GITHUB_REPO } = require('../src/config')
 
 const [,, version, zipPath] = process.argv
 

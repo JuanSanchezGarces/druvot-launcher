@@ -1,7 +1,7 @@
 {
   "clientVersion": "1.0.0",
   "download": {
-    "url": "https://github.com/YOUR_GITHUB_USER/druvot-launcher/releases/download/client-v1.0.0/client.zip",
+    "url": "https://github.com/JuanSanchezGarces/druvot-launcher/releases/download/client-v1.0.0/client.zip",
     "hash": "27eeb29a497d7f5bfe943658f1134adfe25df8c3d21ba156cde407f1397f6e47",
     "size": 386502212
   }
