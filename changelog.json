@@ -1,0 +1,11 @@
+[
+  {
+    "date": "2026-05-06",
+    "version": "v1.0.0",
+    "changes": [
+      "Lançamento do servidor Druvot!",
+      "Sistema de dungeons implementado",
+      "Sistema de rifts adicionado"
+    ]
+  }
+]

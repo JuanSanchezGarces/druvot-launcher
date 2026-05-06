@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline';" />
+  <title>Druvot Launcher</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="titlebar">
+    <div id="titlebar-logo">
+      <img id="logo" src="../../assets/logo.png" onerror="this.style.display='none'" />
+      <span id="server-name">DRUVOT</span>
+    </div>
+    <div id="titlebar-controls">
+      <button id="btn-minimize" title="Minimizar">&#x2013;</button>
+      <button id="btn-close" title="Fechar">&#x2715;</button>
+    </div>
+  </div>
+
+  <div id="content">
+    <div id="changelog-box">
+      <div id="changelog-header">NOVIDADES</div>
+      <div id="changelog-body">
+        <div class="loading-text">Carregando...</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="progress-section">
+      <div id="status-text">Iniciando...</div>
+      <div id="progress-track">
+        <div id="progress-fill"></div>
+      </div>
+    </div>
+    <button id="btn-play" disabled>JOGAR</button>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
