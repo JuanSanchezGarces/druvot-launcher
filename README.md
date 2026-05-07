@@ -111,6 +111,24 @@ Done. The next time any player opens the launcher it will detect the new version
 
 ---
 
+## Updating the changelog only (no client changes)
+
+If you made server-side changes and just want to announce them in the launcher without touching the client:
+
+### Step 1 — Edit `changelog.json`
+
+Add a new entry at the top of the array (see format in the release workflow above).
+
+### Step 2 — Deploy
+
+```
+powershell -ExecutionPolicy Bypass -File scripts\deploy.ps1
+```
+
+That's it. No new manifest, no new GitHub Release needed. Players will see the updated changelog the next time they open the launcher.
+
+---
+
 ## Building the installer
 
 Run from an **Administrator terminal** (or with Developer Mode enabled in Windows Settings):
