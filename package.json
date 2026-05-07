@@ -2,6 +2,7 @@
   "name": "druvot-launcher",
   "version": "1.0.0",
   "description": "Launcher oficial do servidor Druvot",
+  "author": "JuanSanchezGarces",
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",

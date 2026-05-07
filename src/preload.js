@@ -6,6 +6,7 @@ contextBridge.exposeInMainWorld('launcher', {
   onReady: (cb) => ipcRenderer.on('ready', (_, data) => cb(data)),
   onError: (cb) => ipcRenderer.on('error', (_, msg) => cb(msg)),
   launchGame: () => ipcRenderer.send('launch-game'),
+  retryUpdate: () => ipcRenderer.send('retry-update'),
   minimize: () => ipcRenderer.send('window-minimize'),
   close: () => ipcRenderer.send('window-close'),
 })

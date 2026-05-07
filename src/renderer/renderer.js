@@ -1,12 +1,14 @@
 const progressFill = document.getElementById('progress-fill')
 const statusText = document.getElementById('status-text')
 const btnPlay = document.getElementById('btn-play')
+const btnRetry = document.getElementById('btn-retry')
 const changelogBody = document.getElementById('changelog-body')
 
 window.launcher.onProgress(({ percent, status }) => {
   progressFill.style.width = `${percent}%`
   statusText.textContent = status
   statusText.className = ''
+  btnRetry.classList.add('hidden')
 })
 
 window.launcher.onChangelog((entries) => {
@@ -23,21 +25,34 @@ window.launcher.onChangelog((entries) => {
   `).join('')
 })
 
-window.launcher.onReady(() => {
-  statusText.textContent = 'Pronto para jogar!'
-  statusText.className = 'ready'
+window.launcher.onReady((isOffline) => {
+  btnRetry.classList.add('hidden')
   btnPlay.disabled = false
+  if (isOffline) {
+    statusText.textContent = 'Sem conexão — jogando versão instalada.'
+    statusText.className = 'offline'
+  } else {
+    statusText.textContent = 'Pronto para jogar!'
+    statusText.className = 'ready'
+  }
 })
 
 window.launcher.onError((msg) => {
   statusText.textContent = `Erro: ${msg}`
   statusText.className = 'error'
+  btnRetry.classList.remove('hidden')
 })
 
 btnPlay.addEventListener('click', () => {
   btnPlay.disabled = true
   btnPlay.textContent = '...'
   window.launcher.launchGame()
+})
+
+btnRetry.addEventListener('click', () => {
+  btnRetry.classList.add('hidden')
+  statusText.className = ''
+  window.launcher.retryUpdate()
 })
 
 document.getElementById('btn-minimize').addEventListener('click', () => window.launcher.minimize())
