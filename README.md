@@ -104,7 +104,7 @@ This SCPs `manifest.json` and `changelog.json` to the VPS via SSH. Players will 
 > The GitHub web UI has a 25 MB upload limit — always use the CLI.
 
 ```
-& "C:\Program Files\GitHub CLI\gh.exe" release create client-v1.0.1 C:\TFS\client.zip --title "Client v1.0.1" --notes "" --repo JuanSanchezGarces/druvot-launcher
+& "C:\Program Files\GitHub CLI\gh.exe" release create client-v1.0.1 C:\TFS\client.zip --title "Client v1.0.1" --notes "." --repo JuanSanchezGarces/druvot-launcher
 ```
 
 Done. The next time any player opens the launcher it will detect the new version and download the update automatically.

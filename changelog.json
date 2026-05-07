@@ -1,11 +1,20 @@
 [
   {
     "date": "2026-05-06",
+    "version": "v1.0.1",
+    "changes": [
+      "Novos dungeons diários: Claustro Inferno, Ebb and Flow, Furious Crater, Mirrored Nightmare, Rotten Wasteland",
+      "NPC Obi: novos itens disponíveis para venda (Smoldering Eye, Sea Horse Figurine, Golden Mask, Fafnar Symbol, Empty Honey Glass)",
+      "Ajuste de drops: The Black Knight, The Black Knight VIP e The Source of Corruption tiveram chances de itens raros reduzidas",
+      "Rifts: revisada quantidade de criaturas",
+      "Reformulado área de teleport das hunts"
+    ]
+  },
+  {
+    "date": "2026-05-06",
     "version": "v1.0.0",
     "changes": [
-      "Lançamento do servidor Druvot!",
-      "Sistema de dungeons implementado",
-      "Sistema de rifts adicionado"
+      "Lançamento Launcher Druvot!"
     ]
   }
 ]
