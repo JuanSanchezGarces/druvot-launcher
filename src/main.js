@@ -3,7 +3,7 @@ const path = require('path')
 const fs = require('fs')
 const https = require('https')
 const crypto = require('crypto')
-const { spawn } = require('child_process')
+const { spawn, execFile } = require('child_process')
 const extractZip = require('extract-zip')
 const config = require('./config')
 
@@ -208,6 +208,17 @@ function sendBackground() {
   mainWindow.webContents.send('background', `data:image/png;base64,${data}`)
 }
 
+function isClientRunning() {
+  return new Promise((resolve) => {
+    execFile('tasklist', ['/FO', 'CSV', '/NH'], (err, stdout) => {
+      if (err) { resolve(false); return }
+      const candidates = ['otclient_dx_x64.exe', 'otclient_gl_x64.exe', 'otclient.exe']
+      const output = stdout.toLowerCase()
+      resolve(candidates.some(name => output.includes(name.toLowerCase())))
+    })
+  })
+}
+
 function isNetworkError(err) {
   if (!err) return false
   const OFFLINE_CODES = ['ECONNRESET', 'ECONNREFUSED', 'ETIMEDOUT', 'ENOTFOUND', 'ENETUNREACH', 'ECONNABORTED']
@@ -235,6 +246,10 @@ async function runUpdateFlow() {
       return
     }
 
+    if (await isClientRunning()) {
+      throw new Error('Feche o cliente do jogo antes de atualizar e tente novamente.')
+    }
+
     // Download
     sendProgress(5, `Baixando cliente v${manifest.clientVersion}...`)
     await withRetry(() => downloadFile(manifest.download.url, TEMP_ZIP, (pct) => {
@@ -248,6 +263,10 @@ async function runUpdateFlow() {
       if (hash !== manifest.download.hash) {
         throw new Error('Falha na verificação — o download pode estar corrompido.')
       }
+    }
+
+    if (await isClientRunning()) {
+      throw new Error('Feche o cliente do jogo antes de atualizar e tente novamente.')
     }
 
     // Extract
