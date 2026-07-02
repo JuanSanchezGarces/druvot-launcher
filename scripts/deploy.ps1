@@ -1,5 +1,5 @@
 # deploy.ps1
-# Copies manifest.json and changelog.json to the web server.
+# Copies manifest.json, changelog.json and background.png to the web server.
 # Run this after: node scripts/generate-manifest.js <version> <zip>
 #
 # Usage: .\scripts\deploy.ps1
@@ -12,10 +12,11 @@ $REMOTE_PATH = "/home/ubuntu/tfs-druvot/web/html/launcher"
 
 $root = Split-Path $PSScriptRoot -Parent
 
-Write-Host "Deploying manifest.json and changelog.json to $SERVER_HOST..."
+Write-Host "Deploying manifest.json, changelog.json and background.png to $SERVER_HOST..."
 
 ssh -i $IDENTITY "${SERVER_USER}@${SERVER_HOST}" "mkdir -p ${REMOTE_PATH}"
-scp -i $IDENTITY "$root\manifest.json"  "${SERVER_USER}@${SERVER_HOST}:${REMOTE_PATH}/manifest.json"
-scp -i $IDENTITY "$root\changelog.json" "${SERVER_USER}@${SERVER_HOST}:${REMOTE_PATH}/changelog.json"
+scp -i $IDENTITY "$root\manifest.json"        "${SERVER_USER}@${SERVER_HOST}:${REMOTE_PATH}/manifest.json"
+scp -i $IDENTITY "$root\changelog.json"       "${SERVER_USER}@${SERVER_HOST}:${REMOTE_PATH}/changelog.json"
+scp -i $IDENTITY "$root\assets\background.png" "${SERVER_USER}@${SERVER_HOST}:${REMOTE_PATH}/background.png"
 
 Write-Host "Done. Live at https://druvot.com.br/launcher/manifest.json"

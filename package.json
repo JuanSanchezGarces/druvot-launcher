@@ -2,7 +2,7 @@
   "name": "druvot-launcher",
   "version": "1.0.0",
   "description": "Launcher oficial do servidor Druvot",
-  "author": "JuanSanchezGarces",
+  "author": "Druvot",
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
@@ -25,7 +25,8 @@
     },
     "win": {
       "target": "nsis",
-      "icon": "assets/icon.ico"
+      "icon": "assets/icon.ico",
+      "publisherName": "Druvot"
     },
     "nsis": {
       "oneClick": false,

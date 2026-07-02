@@ -10,6 +10,8 @@ const config = require('./config')
 const CLIENT_DIR = path.join(app.getPath('userData'), 'client')
 const VERSION_FILE = path.join(app.getPath('userData'), 'version.json')
 const TEMP_ZIP = path.join(app.getPath('temp'), 'druvot-client.zip')
+const BACKGROUND_CACHE = path.join(app.getPath('userData'), 'background.png')
+const TEMP_BACKGROUND = path.join(app.getPath('temp'), 'druvot-background.png')
 
 let mainWindow
 
@@ -164,13 +166,46 @@ function findClientExe() {
   return null
 }
 
-function getLocalVersion() {
-  if (!fs.existsSync(VERSION_FILE)) return null
+function readState() {
+  if (!fs.existsSync(VERSION_FILE)) return {}
   try {
-    return JSON.parse(fs.readFileSync(VERSION_FILE, 'utf8')).clientVersion
+    return JSON.parse(fs.readFileSync(VERSION_FILE, 'utf8'))
   } catch {
-    return null
+    return {}
   }
+}
+
+function writeState(patch) {
+  fs.writeFileSync(VERSION_FILE, JSON.stringify({ ...readState(), ...patch }))
+}
+
+function getLocalVersion() {
+  return readState().clientVersion || null
+}
+
+async function updateBackground(bg) {
+  if (!bg || !bg.url || !bg.hash) return
+  try {
+    const cached = readState().backgroundHash === bg.hash && fs.existsSync(BACKGROUND_CACHE)
+    if (!cached) {
+      await withRetry(() => downloadFile(bg.url, TEMP_BACKGROUND))
+      const hash = await hashFile(TEMP_BACKGROUND)
+      if (hash !== bg.hash) throw new Error('Background hash mismatch')
+      fs.copyFileSync(TEMP_BACKGROUND, BACKGROUND_CACHE)
+      fs.rmSync(TEMP_BACKGROUND, { force: true })
+      writeState({ backgroundHash: bg.hash })
+    }
+    sendBackground()
+  } catch (err) {
+    console.error('Background update failed (non-fatal):', err.message)
+    sendBackground()
+  }
+}
+
+function sendBackground() {
+  if (!mainWindow || !fs.existsSync(BACKGROUND_CACHE)) return
+  const data = fs.readFileSync(BACKGROUND_CACHE).toString('base64')
+  mainWindow.webContents.send('background', `data:image/png;base64,${data}`)
 }
 
 function isNetworkError(err) {
@@ -189,6 +224,7 @@ async function runUpdateFlow() {
     ])
 
     mainWindow.webContents.send('changelog', changelog)
+    updateBackground(manifest.background)
 
     const localVersion = getLocalVersion()
     const upToDate = localVersion === manifest.clientVersion && findClientExe() !== null
@@ -220,7 +256,7 @@ async function runUpdateFlow() {
     await extractZip(TEMP_ZIP, { dir: CLIENT_DIR })
 
     // Save version
-    fs.writeFileSync(VERSION_FILE, JSON.stringify({ clientVersion: manifest.clientVersion }))
+    writeState({ clientVersion: manifest.clientVersion })
     fs.rmSync(TEMP_ZIP, { force: true })
 
     sendProgress(100, 'Pronto para jogar!')

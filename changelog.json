@@ -1,20 +1,74 @@
 [
   {
-    "date": "2026-05-06",
-    "version": "v1.0.1",
+    "date": "2026-06-30",
+    "version": "v1.1.6",
     "changes": [
-      "Novos dungeons diários: Claustro Inferno, Ebb and Flow, Furious Crater, Mirrored Nightmare, Rotten Wasteland",
-      "NPC Obi: novos itens disponíveis para venda (Smoldering Eye, Sea Horse Figurine, Golden Mask, Fafnar Symbol, Empty Honey Glass)",
-      "Ajuste de drops: The Black Knight, The Black Knight VIP e The Source of Corruption tiveram chances de itens raros reduzidas",
-      "Rifts: revisada quantidade de criaturas",
-      "Reformulado área de teleport das hunts"
+      "# NOVIDADES",
+      "**PAINEL DE TASKS**",
+      "  - Painel completamente reformulado",
+      "  - Novo filtro de tasks ativas, facilitando encontrar, cancelar ou entregar tasks",
+      "  - Nova aba de Shop, onde os Task Points podem ser trocados por itens",
+      "  - Task Points: nova recompensa por completar tasks",
+      "",
+      "**HUNTING BONUSES**",
+      "  - Compre bônus de caça com Task Points diretamente com a NPC Zara",
+      "  - Duração de 2h00 cada; pedir um novo bônus à Zara substitui o atual antes do término",
+      "  - Mastery: +10% de dano e defesa contra uma classe de monstros escolhida (ex: Demônios, Dragões)",
+      "  - Scholar: +15% de experiência contra a classe escolhida",
+      "  - Fortune: +15% de loot contra a classe escolhida",
+      "",
+      "**HUNTS**",
+      "  - Novas na Área Premium: Dark Torturer, Hellhound, Undead Dragon, Goannas, Raubritters, Papyrus, Hellflayer, Cyclops Marshal, Dona Benta, Coven Witch, Samael",
+      "  - Reformuladas na Área Premium: Dark Hydra, Templar Knight e Templar Archer",
+      "  - Novas na Área Free: Raubritter, Papyrus, Templar Knight e Templar Archer, Samael",
+      "  - Reformulada na Área Free: Coven Witch",
+      "",
+      "**TASKS**",
+      "  - Novas tasks: Black Demon, Papyrus, Raubritter, Templar Knight e Templar Archer, Samael, Dona Benta, Hellhound",
+      "# ALTERAÇÕES",
+      "- Interface gráfica do painel de tasks atualizada",
+      "- NPC Zara totalmente reformulada; itens que ela vendia agora ficam no Task Shop",
+      "- Área VIP recebeu ajustes para facilitar o acesso aos teleports de Hunts",
+      "",
+      "Para mais informações accesse: https://druvot.com.br/wiki.php"
     ]
   },
   {
-    "date": "2026-05-06",
-    "version": "v1.0.0",
+    "date": "2026-06-26",
+    "version": "v1.1.5",
     "changes": [
-      "Lançamento Launcher Druvot!"
+      "# NOVIDADES",
+      "**Sistema de Rifts reformulado**",
+      "  - As rifts tiveram sua funcionalidade completamente reformulada. Não se tratam mais de um teleport que leva o jogador a uma área nova com criaturas mais fortes e sim de um evento que se ativa durante a hunt",
+      "  - Quando o jogador ativa uma rift, existe a chance de nascer um teleport de 3 dificuldades diferentes",
+      "  - Dificuldades de Rift: Azul (fácil), Roxo (médio) e Vermelho (difícil), cada uma com visuais e criaturas distintas",
+      "  - Criaturas do Rift: Ao ativar um portal, 5 da criatura derrotada e 3 criaturas [*] surgem no local",
+      "  - Criaturas [*] dão mais XP, mais Loot, tem mais vida, dano",
+      "  - Adicionado NPC Rift Exchanger no andar inferior do templo",
+      "# ALTERAÇÕES",
+      "**RIFTS**",
+      "  - Portais de Rift não teletransportam mais jogadores para zonas separadas",
+      "  - Criaturas invocadas por Rifts são removidas automaticamente após 5 minutos caso ainda estejam vivas",
+      "  - Portais não ativados desaparecem após 60 segundos com efeito visual",
+      "",
+      "**MARKET**",
+      "  - Revisão completa no sistema do market [70% completo]",
+      "  - Ajuste: opção de Anonimo no market não estava funcionando",
+      "  - Ajuste: ofertais atuais e histórico de compras/vendas não estava funcionando",
+      "  - Ajuste: contagem de gold do jogador não estava funcionando",
+      "",
+      "Para mais informações accesse: https://druvot.com.br/wiki.php"
+    ]
+  },
+  {
+    "date": "2026-06-23",
+    "version": "v1.1.3",
+    "changes": [
+      "# NOVIDADES",
+      "- Adicionada nova quest da Segunda Promotion",
+      "- Adicionadas novas magias para Primordial Sorcerer, Druid, Knight e Paladin",
+      "# ALTERAÇÕES",
+      "- Alterada velocidade maxima para 4000"
     ]
   }
 ]

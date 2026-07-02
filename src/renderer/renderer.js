@@ -11,6 +11,39 @@ window.launcher.onProgress(({ percent, status }) => {
   btnRetry.classList.add('hidden')
 })
 
+function escapeHtml(str) {
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+}
+
+function formatInline(str) {
+  return escapeHtml(str).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+}
+
+// Tiny markup for changelog.json "changes" strings:
+//   "# Title"      -> section heading
+//   "- item"       -> bullet
+//   "  - item"     -> sub-bullet (indented, 2+ leading spaces)
+//   "**bold**"     -> bold (works inside any line type)
+//   ""             -> spacer
+//   anything else  -> plain text line
+function renderChangeLine(line) {
+  if (/^#\s+/.test(line)) {
+    return `<div class="changelog-heading">${formatInline(line.replace(/^#\s+/, ''))}</div>`
+  }
+  const subMatch = line.match(/^\s{2,}-\s?(.*)$/)
+  if (subMatch) {
+    return `<div class="changelog-subitem">${formatInline(subMatch[1])}</div>`
+  }
+  const topMatch = line.match(/^-\s?(.*)$/)
+  if (topMatch) {
+    return `<div class="changelog-item">${formatInline(topMatch[1])}</div>`
+  }
+  if (line.trim() === '') {
+    return '<div class="changelog-spacer"></div>'
+  }
+  return `<div class="changelog-text">${formatInline(line)}</div>`
+}
+
 window.launcher.onChangelog((entries) => {
   if (!entries || entries.length === 0) {
     changelogBody.innerHTML = '<div class="loading-text">Sem entradas no changelog.</div>'
@@ -19,10 +52,14 @@ window.launcher.onChangelog((entries) => {
 
   changelogBody.innerHTML = entries.map(entry => `
     <div class="changelog-entry">
-      <div class="changelog-date">${entry.date}${entry.version ? ' &mdash; ' + entry.version : ''}</div>
-      ${entry.changes.map(c => `<div class="changelog-item">${c}</div>`).join('')}
+      <div class="changelog-date">${escapeHtml(entry.date)}${entry.version ? ' &mdash; ' + escapeHtml(entry.version) : ''}</div>
+      ${entry.changes.map(renderChangeLine).join('')}
     </div>
   `).join('')
+})
+
+window.launcher.onBackground((dataUrl) => {
+  document.documentElement.style.setProperty('--bg-image', `url("${dataUrl}")`)
 })
 
 window.launcher.onReady((isOffline) => {

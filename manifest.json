@@ -1,8 +1,12 @@
 {
-  "clientVersion": "1.0.3",
+  "clientVersion": "1.1.6",
   "download": {
-    "url": "https://github.com/JuanSanchezGarces/druvot-launcher/releases/download/client-v1.0.3/client.zip",
-    "hash": "eda78a0828245b69317ff8ab930cf2abdda325b29bee11ef5f6819a000eed320",
-    "size": 389564206
+    "url": "https://github.com/JuanSanchezGarces/druvot-launcher/releases/download/client-v1.1.6/client.zip",
+    "hash": "f6311be4ef48084bb33e0e0a0d7942000e6141a72116e312bebff993ebd149e9",
+    "size": 385423506
+  },
+  "background": {
+    "url": "https://druvot.com.br/launcher/background.png",
+    "hash": "f8ca10e11b8c5f2227d5d397a7cc40cda06959aeb255116956ae41bf14ddfc00"
   }
 }
