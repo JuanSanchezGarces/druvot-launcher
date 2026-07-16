@@ -107,13 +107,21 @@ Edit `changelog.json` and add a new entry **at the top** of the array. Each stri
 
 > This markup only renders on launcher builds from `launcher-v1.0.0` onward. Players still on an older launcher just see the raw `#`/`**`/`-` characters as plain text — harmless, just less polished until they update.
 
-### Step 4 — Deploy manifest and changelog to the web server
+### Step 4 — Stage manifest and changelog on the web server
 
 ```
 powershell -ExecutionPolicy Bypass -File scripts\deploy.ps1
 ```
 
-This SCPs `manifest.json`, `changelog.json` and `background.png` to the VPS via SSH. Players will start seeing the new version immediately after this step.
+This SCPs `manifest.json`, `changelog.json` and `background.png` to a **staging** folder on the VPS via SSH. It does **not** go live immediately — `tfs-druvot/scripts/auto-deploy.sh` promotes it to the live path automatically at the next server-save restart, so players get the new client at the exact same moment as that day's server-side update goes live (see tfs-druvot's README, "O deploy agora é automático").
+
+Need it live right now instead of waiting for the next save (urgent client-only hotfix, no server dependency)?
+
+```
+powershell -ExecutionPolicy Bypass -File scripts\deploy.ps1 -Now
+```
+
+`-Now` stages **and** promotes to the live path in the same run. Use sparingly — it puts the client update out immediately, independent of the server-save cadence.
 
 ### Step 5 — Upload the zip to a GitHub Release
 
@@ -123,7 +131,7 @@ This SCPs `manifest.json`, `changelog.json` and `background.png` to the VPS via 
 & "C:\Program Files\GitHub CLI\gh.exe" release create client-v1.0.1 C:\TFS\client.zip --title "Client v1.0.1" --notes "." --repo JuanSanchezGarces/druvot-launcher
 ```
 
-Done. The next time any player opens the launcher it will detect the new version and download the update automatically.
+Done. Staged — it goes live (and the launcher starts offering the download) at the next server-save restart, same as Step 4 above. Add `-Now` to `deploy.ps1` if you need it live immediately instead.
 
 ---
 
@@ -141,7 +149,7 @@ Add a new entry at the top of the array (see format in the release workflow abov
 powershell -ExecutionPolicy Bypass -File scripts\deploy.ps1
 ```
 
-That's it. No new manifest, no new GitHub Release needed. Players will see the updated changelog the next time they open the launcher.
+That's it. No new manifest, no new GitHub Release needed. Staged — players will see the updated changelog starting at the next server-save restart (add `-Now` for immediately instead).
 
 > `deploy.ps1` always pushes all three files (`manifest.json`, `changelog.json`, `background.png`) together — harmless even if only one changed.
 
@@ -214,7 +222,7 @@ The launcher fetches this live from the VPS and caches it locally by hash, so ch
    powershell -ExecutionPolicy Bypass -File scripts\deploy.ps1
    ```
 
-Players see the new background the next time they open the launcher — no new installer needed. (If the hash in `manifest.json` doesn't match the deployed file, the launcher silently keeps showing the old background — it never applies an unverified download.)
+Staged — players see the new background starting at the next server-save restart (add `-Now` for immediately instead), no new installer needed. (If the hash in `manifest.json` doesn't match the deployed file, the launcher silently keeps showing the old background — it never applies an unverified download.)
 
 ### Logo / icon (rebuild required)
 
@@ -234,11 +242,15 @@ Then release a new launcher version (see "Releasing a new launcher version" abov
 
 | What | Where |
 |---|---|
-| `manifest.json` | `https://druvot.com.br/launcher/manifest.json` (VPS via deploy.ps1) |
-| `changelog.json` | `https://druvot.com.br/launcher/changelog.json` (VPS via deploy.ps1) |
-| `background.png` | `https://druvot.com.br/launcher/background.png` (VPS via deploy.ps1) |
+| `manifest.json` | `https://druvot.com.br/launcher/manifest.json` — live path, populated by promotion (see below), not directly by `deploy.ps1` |
+| `changelog.json` | same as above |
+| `background.png` | same as above |
 | `client.zip` | GitHub Releases, tagged `client-vX.Y.Z` |
 | Launcher installer | GitHub Releases, tagged `launcher-vX.Y.Z` — linked from `druvot.com.br`'s download page via the stable `releases/latest/download/druvot_launcher.exe` URL |
+
+### Staging → live promotion
+
+`deploy.ps1` writes to a **staging** path on the VPS (`~/tfs-druvot/web/launcher-pending/`), not the live `~/tfs-druvot/web/html/launcher/` path directly. `tfs-druvot/scripts/auto-deploy.sh` copies staging → live automatically at the same moment it swaps in that day's server-side update (the post-server-save restart) — so a client release and a server release committed on the same day always go live together, and you never need to be online at the exact save time to make that happen. `deploy.ps1 -Now` skips the wait and promotes immediately, for client-only urgent fixes. See tfs-druvot's README, "O deploy agora é automático", for the promotion side of this.
 
 > `manifest.json` and `changelog.json` are served from the VPS rather than GitHub because antivirus software commonly intercepts GitHub HTTPS connections, causing SSL failures in the launcher.
 
